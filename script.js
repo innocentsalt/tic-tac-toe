@@ -45,7 +45,39 @@ const gameBoard = (() => {
 
 const ticTacToe = (() => {
 
+    let botLevel = 'easy'
+
+    const playerSymbol = 'X'
+    const botSymbol = 'O'
+
+    const playerScore = document.querySelector('.player-score')
+    const botScore = document.querySelector('.bot-score')
+
+    const botLevelSelector = document.querySelector('.bot-level')
+    botLevelSelector.addEventListener('change', (e) => {
+        botLevel = document.getElementById('bot-level').value
+        console.log(botLevel)
+        playerScore.textContent = '0'
+        botScore.textContent = '0'
+        startGame()
+    })
+
+    const result = document.querySelector('.result')
+
+    const restart = document.querySelector('.restart')
+    restart.addEventListener('click', () => {
+        playerScore.textContent = '0'
+        botScore.textContent = '0'
+        startGame()
+    })
+
+    const playAgain = document.querySelector('.play-again')
+    playAgain.addEventListener('click', () => {
+        startGame()
+    })
+
     const _setUpBoard = () => {
+
         gameBoard.clearBoard()
         
         const grid = document.querySelector('.grid')
@@ -75,34 +107,36 @@ const ticTacToe = (() => {
         return emptySpots[Math.floor(Math.random() * emptySpots.length)]
     }
 
+    const _updateResults = (winner) => {
+        if (winner === false) {
+            result.textContent = 'tie!'
+        } else if (winner === playerSymbol) {
+            result.textContent = 'you win!'
+            playerScore.textContent = parseInt(playerScore.textContent) + 1
+        } else if (winner === botSymbol) {
+            result.textContent = 'bot wins!'
+            botScore.textContent = parseInt(botScore.textContent) + 1
+        }
+        result.style.display = 'block'
+
+        if (!playAgain.style.display) {
+            playAgain.style.display = 'block'
+        }
+    }
+
     const startGame = () => {
         _setUpBoard()
-
-        const playerSymbol = 'X'
-        const botSymbol = 'O'
         
-        const result = document.querySelector('.result')
         result.textContent = ''
         result.style.display = 'none'
-
-        const _updateResults = (winner) => {
-            if (winner === false) {
-                result.textContent = 'tie!'
-            } else if (winner === playerSymbol) {
-                result.textContent = 'you win!'
-            } else if (winner === botSymbol) {
-                result.textContent = 'bot wins!'
-            }
-            result.style.display = 'block'
-        }
 
         const gridList = document.querySelectorAll('.grid')
         gridList.forEach((box) => {
             box.addEventListener('click', (e) => {
                 if (!gameBoard.isFull() && !gameBoard.checkWinner()) {
                     if (e.originalTarget.classList[0] === 'box' && e.originalTarget.classList[1] === 'unmarked') {
-                        const [ row, col ] = e.target.id.split('').map(item => parseInt(item))
-                        gameBoard.placeMarker(playerSymbol, row, col)
+                        const [ playerRow, playerCol ] = e.target.id.split('').map(item => parseInt(item))
+                        gameBoard.placeMarker(playerSymbol, playerRow, playerCol)
                         e.target.textContent = playerSymbol
                         document.getElementById(e.target.id).classList.remove('unmarked')
 
@@ -111,9 +145,13 @@ const ticTacToe = (() => {
                         if (winner || gameBoard.isFull()) {
                             _updateResults(winner)
                         } else {
-                            const [ row, col ] = _easyBot()
-                            gameBoard.placeMarker(botSymbol, row, col)
-                            const box = document.getElementById(`${row}${col}`)
+                            let botRow = ''
+                            let botCol = ''
+                            if (botLevel === 'easy') [ botRow, botCol ] = _easyBot()
+                            else if (botLevel === 'medium') [ botRow, botCol ] = _mediumBot()
+                            else if (botLevel === 'undefeatable') [ botRow, botCol ] = _undefeatableBot()
+                            gameBoard.placeMarker(botSymbol, botRow, botCol)
+                            const box = document.getElementById(`${botRow}${botCol}`)
                             box.textContent = botSymbol
                             box.classList.remove('unmarked')
                             winner = gameBoard.checkWinner()
@@ -126,11 +164,6 @@ const ticTacToe = (() => {
             })
         })
     }
-
-    const _restart = document.querySelector('.restart')
-    _restart.addEventListener('click', () => {
-        startGame()
-    })
 
     return { startGame }
 })()

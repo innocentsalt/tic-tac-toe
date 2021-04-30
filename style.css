@@ -27,8 +27,19 @@
     height: var(--icon-size);
 }
 
+.player-score,
+.bot-score {
+    font-size: xx-large;
+}
+
 .result {
-    display: none;
+    /* display: none; */
+    margin: 10px auto;
+    text-align: center;
+    padding-top: 15px;
+    border: 2px dashed black;
+    width: 400px;
+    height: 40px;
 }
 
 .grid {
