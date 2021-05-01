@@ -28,6 +28,10 @@
     height: var(--icon-size);
 }
 
+.player-name {
+    cursor: pointer;
+}
+
 .player-score,
 .bot-score {
     font-size: xx-large;

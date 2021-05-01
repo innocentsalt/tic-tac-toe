@@ -53,6 +53,12 @@ const ticTacToe = (() => {
     const playerScore = document.querySelector('.player-score')
     const botScore = document.querySelector('.bot-score')
 
+    const playerName = document.querySelector('.player-name')
+    playerName.addEventListener('click', () => {
+        const newName = prompt('enter your name!', 'PlayerName')
+        playerName.textContent = newName
+    })
+
     const botLevelSelector = document.querySelector('.bot-level')
     botLevelSelector.addEventListener('change', (e) => {
         botLevel = document.getElementById('bot-level').value
@@ -125,6 +131,10 @@ const ticTacToe = (() => {
         }
     }
 
+    const _sleep = (time) => {
+        return new Promise((resolve) => setTimeout(resolve, time))
+    }
+
     const startGame = () => {
         _setUpBoard()
         
@@ -146,19 +156,21 @@ const ticTacToe = (() => {
                         if (winner || gameBoard.isFull()) {
                             _updateResults(winner)
                         } else {
-                            let botRow = ''
-                            let botCol = ''
-                            if (botLevel === 'easy') [ botRow, botCol ] = _easyBot()
-                            else if (botLevel === 'medium') [ botRow, botCol ] = _mediumBot()
-                            else if (botLevel === 'undefeatable') [ botRow, botCol ] = _undefeatableBot()
-                            gameBoard.placeMarker(botSymbol, botRow, botCol)
-                            const box = document.getElementById(`${botRow}${botCol}`)
-                            box.textContent = botSymbol
-                            box.classList.remove('unmarked')
-                            winner = gameBoard.checkWinner()
-                            if (winner || gameBoard.isFull()) {
-                                _updateResults(winner)
-                            }   
+                            _sleep(500).then(() => {
+                                let botRow = ''
+                                let botCol = ''
+                                if (botLevel === 'easy') [ botRow, botCol ] = _easyBot()
+                                else if (botLevel === 'medium') [ botRow, botCol ] = _mediumBot()
+                                else if (botLevel === 'undefeatable') [ botRow, botCol ] = _undefeatableBot()
+                                gameBoard.placeMarker(botSymbol, botRow, botCol)
+                                const box = document.getElementById(`${botRow}${botCol}`)
+                                box.textContent = botSymbol
+                                box.classList.remove('unmarked')
+                                winner = gameBoard.checkWinner()
+                                if (winner || gameBoard.isFull()) {
+                                    _updateResults(winner)
+                                }
+                            })   
                         }
                     }
                 }
