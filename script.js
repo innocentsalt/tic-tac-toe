@@ -68,6 +68,7 @@ const ticTacToe = (() => {
     restart.addEventListener('click', () => {
         playerScore.textContent = '0'
         botScore.textContent = '0'
+        playAgain.style.display = 'none'
         startGame()
     })
 

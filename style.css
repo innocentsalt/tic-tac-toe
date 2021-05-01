@@ -2,6 +2,7 @@
     --icon-size: 40px;
     --grid-size: 400px;
     --border-radius: 5px;
+    --bar-size: 250px;
 }
 
 .score-board {
@@ -13,7 +14,7 @@
 .bot {
     margin: 10px;
     padding: 10px;
-    width: 250px;
+    width: var(--bar-size);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,12 +34,11 @@
 }
 
 .result {
-    /* display: none; */
-    margin: 10px auto;
+    margin: 30px auto;
     text-align: center;
     padding-top: 15px;
     border: 2px dashed black;
-    width: 400px;
+    width: var(--grid-size);
     height: 40px;
 }
 
@@ -56,6 +56,9 @@
 
 .box {
     border: 4px solid black;
+    font-size: 3em;
+    text-align: center;
+    padding-top: 0.5em;
     border-radius: var(--border-radius);
     margin: 10px;
     cursor: pointer;
@@ -75,4 +78,20 @@
 
 .play-again {
     display: none;
+}
+
+@media (max-width: 480px) {
+    :root {
+        --icon-size: 30px;
+        --grid-size: 300px;
+    }
+
+    .score-board {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .box {
+        font-size: 2em;
+    }
 }
