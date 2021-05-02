@@ -53,14 +53,12 @@ const ticTacToe = (() => {
     const playerScore = document.querySelector('.player-score')
     const botScore = document.querySelector('.bot-score')
 
-    const playerName = document.querySelector('.player-name')
-    playerName.addEventListener('click', () => {
+    document.querySelector('.player-name').addEventListener('click', () => {
         const newName = prompt('enter your name!', 'PlayerName')
         playerName.textContent = newName
     })
 
-    const botLevelSelector = document.querySelector('.bot-level')
-    botLevelSelector.addEventListener('change', (e) => {
+    document.querySelector('.bot-level').addEventListener('change', (e) => {
         botLevel = document.getElementById('bot-level').value
         console.log(botLevel)
         playerScore.textContent = '0'
@@ -70,8 +68,7 @@ const ticTacToe = (() => {
 
     const result = document.querySelector('.result')
 
-    const restart = document.querySelector('.restart')
-    restart.addEventListener('click', () => {
+    document.querySelector('.restart').addEventListener('click', () => {
         playerScore.textContent = '0'
         botScore.textContent = '0'
         playAgain.style.display = 'none'
@@ -192,7 +189,7 @@ const ticTacToe = (() => {
     }
 
     /** None of my buisness yet! */
-    const _sleep = (time) => {
+    const sleep = (time) => {
         return new Promise((resolve) => setTimeout(resolve, time))
     }
 
@@ -202,8 +199,7 @@ const ticTacToe = (() => {
         result.textContent = ''
         result.style.display = 'none'
 
-        const gridList = document.querySelectorAll('.grid')
-        gridList.forEach((box) => {
+        document.querySelectorAll('.grid').forEach((box) => {
             box.addEventListener('click', (e) => {
                 if (!gameBoard.isFull() && !gameBoard.checkWinner()) {
                     if (e.originalTarget.classList[0] === 'box' && e.originalTarget.classList[1] === 'unmarked') {
@@ -217,7 +213,7 @@ const ticTacToe = (() => {
                         if (winner || gameBoard.isFull()) {
                             _updateResults(winner)
                         } else {
-                            _sleep(500).then(() => {
+                            sleep(500).then(() => {
                                 let botRow = ''
                                 let botCol = ''
                                 if (botLevel === 'easy') [ botRow, botCol ] = _easyBot()
@@ -239,7 +235,7 @@ const ticTacToe = (() => {
         })
     }
 
-    return { startGame }
+    return { count, sleep, startGame }
 })()
 
 ticTacToe.startGame()
