@@ -1,10 +1,10 @@
 const gameBoard = (() => {
     
-    let _board = Array.from({length:3}, e => Array(3).fill(''))
+    let _board = Array.from({ length:3 }, e => Array(3).fill(''))
 
     const getBoard = () => JSON.parse(JSON.stringify(_board))
 
-    const clearBoard = () => { _board = Array.from({length:3}, e => Array(3).fill('')) }
+    const clearBoard = () => { _board = Array.from({ length:3 }, e => Array(3).fill('')) }
 
     const isFull = () => _board.every(row => row.every(element => element !== ''))
 
@@ -45,7 +45,7 @@ const gameBoard = (() => {
 
 const ticTacToe = (() => {
 
-    let botLevel = 'easy'
+    let botLevel = ''
 
     const playerSymbol = 'X'
     const botSymbol = 'O'
