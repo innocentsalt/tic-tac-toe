@@ -114,6 +114,66 @@ const ticTacToe = (() => {
         return emptySpots[Math.floor(Math.random() * emptySpots.length)]
     }
 
+    const count = (arr, item) => arr.reduce((total, x) => (x === item ? total + 1 : total), 0)
+
+    const _getBlockingMove = (opponentSymbol) => {
+
+        const board = gameBoard.getBoard()
+
+        for (let i = 0; i < board.length; i++) {
+            if (count(board[i], opponentSymbol) === 2 && count(board[i], '') === 1) {
+                return [ i, board[i].indexOf('') ]
+            }
+        }
+    
+        let leftDiagonal = []
+        for (let i = 0; i < board.length; i++) {
+            leftDiagonal.push(board[i][i])
+        }
+        if (count(leftDiagonal, opponentSymbol) === 2 && count(leftDiagonal, '') === 1) {
+            return [ leftDiagonal.indexOf(''), leftDiagonal.indexOf('') ]
+        }
+    
+        let rightDiagonal = []
+        for (let i = board.length - 1; i >= 0; i--) {
+            rightDiagonal.push(board[i][board.length - 1 - i])
+        }
+        if (count(rightDiagonal, opponentSymbol) === 2 && count(rightDiagonal, '') === 1) {
+            return [ board.length - 1 - rightDiagonal.indexOf(''), rightDiagonal.indexOf('') ]
+        }
+    
+        let transposed = Array.from({ length:3 }, e => Array(3).fill(''))
+        for (let row = 0; row < board.length; row++) {
+            for (let col = 0; col < board[row].length; col++ ) {
+                transposed[col][row] = board[row][col]
+            }
+        }
+
+        for (let i = 0; i < transposed.length; i++) {
+            if (count(transposed[i], opponentSymbol) === 2 && count(transposed[i], '') === 1) {
+                return [ transposed[i].indexOf(''), i ]
+            }
+        }
+
+        return false
+    }
+
+    const _mediumBot = () => {
+
+        /** First check if bot can win (by blocking it's own move) */
+        if (_getBlockingMove(botSymbol)) {
+            return _getBlockingMove(botSymbol)
+        }
+
+        /** If not try to block the player */
+        if (_getBlockingMove(playerSymbol)) {
+            return _getBlockingMove(playerSymbol)
+        }
+
+        /** Else just return a random empty spot */
+        return _easyBot()
+    }
+
     const _updateResults = (winner) => {
         if (winner === false) {
             result.textContent = 'tie!'
@@ -131,6 +191,7 @@ const ticTacToe = (() => {
         }
     }
 
+    /** None of my buisness yet! */
     const _sleep = (time) => {
         return new Promise((resolve) => setTimeout(resolve, time))
     }
