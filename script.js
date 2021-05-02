@@ -45,7 +45,7 @@ const gameBoard = (() => {
 
 const ticTacToe = (() => {
 
-    let botLevel = ''
+    let botLevel = 'easy'
 
     const playerSymbol = 'X'
     const botSymbol = 'O'
@@ -53,7 +53,8 @@ const ticTacToe = (() => {
     const playerScore = document.querySelector('.player-score')
     const botScore = document.querySelector('.bot-score')
 
-    document.querySelector('.player-name').addEventListener('click', () => {
+    const playerName = document.querySelector('.player-name')
+    playerName.addEventListener('click', () => {
         const newName = prompt('enter your name!', 'PlayerName')
         playerName.textContent = newName
     })
@@ -78,6 +79,7 @@ const ticTacToe = (() => {
     const playAgain = document.querySelector('.play-again')
     playAgain.addEventListener('click', () => {
         startGame()
+        playAgain.style.display = 'none'
     })
 
     const _setUpBoard = () => {
@@ -182,10 +184,7 @@ const ticTacToe = (() => {
             botScore.textContent = parseInt(botScore.textContent) + 1
         }
         result.style.display = 'block'
-
-        if (!playAgain.style.display) {
-            playAgain.style.display = 'block'
-        }
+        playAgain.style.display = 'block'
     }
 
     /** None of my buisness yet! */
