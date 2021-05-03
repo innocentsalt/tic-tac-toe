@@ -1,18 +1,18 @@
 const gameBoard = (() => {
     
-    let _board = Array.from({ length:3 }, e => Array(3).fill(''))
+    let _board = Array.from({ length: 3 }, e => Array(3).fill(''))
 
     const getBoard = () => JSON.parse(JSON.stringify(_board))
 
-    const clearBoard = () => { _board = Array.from({ length:3 }, e => Array(3).fill('')) }
+    const clearBoard = () => { _board = Array.from({ length: 3 }, e => Array(3).fill('')) }
 
-    const isFull = () => _board.every(row => row.every(element => element !== ''))
+    const isFull = (board=_board) => board.every(row => row.every(element => element !== ''))
 
     const placeMarker = (marker, row, col) => {
         _board[row][col] = marker
     }
 
-    const checkWinner = () => {
+    const checkWinner = (board=_board) => {
         /** CHECK ROWS */
         for (let row = 0; row < _board.length; row++) {
             if (_board[row][0] !== '' && _board[row][0] === _board[row][1] && _board[row][1] === _board[row][2]) {
@@ -141,7 +141,7 @@ const ticTacToe = (() => {
             return [ board.length - 1 - rightDiagonal.indexOf(''), rightDiagonal.indexOf('') ]
         }
     
-        let transposed = Array.from({ length:3 }, e => Array(3).fill(''))
+        let transposed = Array.from({ length: 3 }, e => Array(3).fill(''))
         for (let row = 0; row < board.length; row++) {
             for (let col = 0; col < board[row].length; col++ ) {
                 transposed[col][row] = board[row][col]
@@ -201,7 +201,7 @@ const ticTacToe = (() => {
         document.querySelectorAll('.grid').forEach((box) => {
             box.addEventListener('click', (e) => {
                 if (!gameBoard.isFull() && !gameBoard.checkWinner()) {
-                    if (e.originalTarget.classList[0] === 'box' && e.originalTarget.classList[1] === 'unmarked') {
+                    if (e.target.classList[0] === 'box' && e.target.classList[1] === 'unmarked') {
                         const [ playerRow, playerCol ] = e.target.id.split('').map(item => parseInt(item))
                         gameBoard.placeMarker(playerSymbol, playerRow, playerCol)
                         e.target.textContent = playerSymbol
