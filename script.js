@@ -6,13 +6,13 @@ const gameBoard = (() => {
 
     const clearBoard = () => { _board = Array.from({ length: 3 }, e => Array(3).fill('')) }
 
-    const isFull = (board=_board) => board.every(row => row.every(element => element !== ''))
+    const isFull = () => board.every(row => row.every(element => element !== ''))
 
     const placeMarker = (marker, row, col) => {
         _board[row][col] = marker
     }
 
-    const checkWinner = (board=_board) => {
+    const checkWinner = () => {
         /** CHECK ROWS */
         for (let row = 0; row < _board.length; row++) {
             if (_board[row][0] !== '' && _board[row][0] === _board[row][1] && _board[row][1] === _board[row][2]) {
@@ -55,13 +55,17 @@ const ticTacToe = (() => {
 
     const playerName = document.querySelector('.player-name')
     playerName.addEventListener('click', () => {
-        const newName = prompt('enter your name!', 'PlayerName')
+        const newName = prompt('enter your name!', 'PlayerName') || 'No Name'
         playerName.textContent = newName
     })
 
     document.querySelector('.bot-level').addEventListener('change', (e) => {
         botLevel = document.getElementById('bot-level').value
         console.log(botLevel)
+        if (botLevel === 'undefeatable') {
+            alert('couldn\'t implement!')
+            return
+        }
         playerScore.textContent = '0'
         botScore.textContent = '0'
         startGame()
