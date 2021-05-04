@@ -6,7 +6,7 @@ const gameBoard = (() => {
 
     const clearBoard = () => { _board = Array.from({ length: 3 }, e => Array(3).fill('')) }
 
-    const isFull = () => board.every(row => row.every(element => element !== ''))
+    const isFull = () => _board.every(row => row.every(element => element !== ''))
 
     const placeMarker = (marker, row, col) => {
         _board[row][col] = marker
