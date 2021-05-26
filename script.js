@@ -63,7 +63,7 @@ const ticTacToe = (() => {
         botLevel = document.getElementById('bot-level').value
         console.log(botLevel)
         if (botLevel === 'undefeatable') {
-            alert('couldn\'t implement!')
+            alert('to be implemented!')
             return
         }
         playerScore.textContent = '0'
